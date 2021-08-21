@@ -10,6 +10,9 @@
   </div>
 	<div class='w-1/3 m-auto mt-2'>
 		<input class='border-2 w-2/3' #input type='text' name='todo' placeholder='Enter new Todo' />
-		<button class='border-2 w-1/3 hover:bg-blue-300' type='submit' (click)='getValue(input.value)'>Submit</button>
+		<button class='border-2 w-1/3 hover:bg-blue-300' type='submit' >Submit</button>
 	</div>
+	<!-- <div *ngFor='let todo of todos | async'>
+		{{ todo | json }}
+	</div> -->
 </div>

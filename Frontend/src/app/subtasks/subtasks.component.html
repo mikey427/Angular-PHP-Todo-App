@@ -12,18 +12,13 @@
     <button class="float-right rounded border-2 w-12 hover:bg-red-300">
       X
     </button>
-    <a routerLink="/test"
-      ><button class="float-right rounded border-2 w-28 mr-2 hover:bg-blue-300">
-        Subtasks
-      </button></a
-    >
   </div>
   <div class="w-1/3 m-auto mt-2">
     <input
       class="border-2 w-2/3"
       #input
       type="text"
-      name="todo"
+      name="name"
       placeholder="Enter subtask"
     />
     <button
@@ -34,7 +29,7 @@
       Submit
     </button>
     <div class="w-1/3 m-auto mt-6">
-      <a routerLink="/home">
+      <a routerLink="/todos">
         <button class="border-2 w-full m-auto h-12 hover:bg-blue-300">
           Home
         </button>
