@@ -8,12 +8,6 @@ import { TodosComponent } from './todos/todos.component'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	constructor(private _obj:TodosService) {
-		_obj.getTodos().subscribe((todos:any) => {
-			console.log(todos);
-		})
-	}
-
   title = 'todo-app';
 	variable = 'michael';
 }

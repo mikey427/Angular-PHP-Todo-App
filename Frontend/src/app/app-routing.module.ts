@@ -7,7 +7,7 @@ import { SubtasksComponent } from './subtasks/subtasks.component';
 const routes: Routes = [
 	{ path: 'todos', component: TodosComponent },
   { path: '', redirectTo: 'todos', pathMatch: 'full' },
-	{ path: 'test', component: SubtasksComponent}
+	{ path: 'todos/:id', component: SubtasksComponent}
 ];
 
 @NgModule({

@@ -17,7 +17,8 @@ import { TodosComponent } from './todos/todos.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-		HttpClientModule
+		HttpClientModule,
+		FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
