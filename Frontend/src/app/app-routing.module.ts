@@ -3,10 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './todos/todos.component';
 import { SubtasksComponent } from './subtasks/subtasks.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
-	{ path: 'todos', component: TodosComponent },
-  { path: '', redirectTo: 'todos', pathMatch: 'full' },
+	{ path: 'users', component: UsersComponent },
+	{ path: 'users/:id', component: TodosComponent },
+  { path: '', redirectTo: 'users', pathMatch: 'full' },
 	{ path: 'todos/:id', component: SubtasksComponent}
 ];
 

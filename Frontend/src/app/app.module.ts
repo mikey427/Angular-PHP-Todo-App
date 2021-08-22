@@ -7,12 +7,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SubtasksComponent } from './subtasks/subtasks.component';
 import { TodosComponent } from './todos/todos.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SubtasksComponent,
-    TodosComponent
+    TodosComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

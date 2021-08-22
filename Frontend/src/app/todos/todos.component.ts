@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core'
 import { TodosService } from '../todos.service'
 import { Todo } from './todo'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +11,17 @@ import { Router } from '@angular/router';
 
 
 export class TodosComponent implements OnInit {
-  constructor(private http: TodosService, private router: Router) {
+  constructor(private http: TodosService, private router: Router, private route: ActivatedRoute) {
 
 	 }
 
 	todoModel = new Todo('');
-
+	userId:any;
 	todos:any;
 	ngOnInit(): void {
-		this.http.getTodos().subscribe((data: any) => {
+		const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+		this.userId = id;
+		this.http.getTodos(this.userId).subscribe((data: any) => {
 			this.todos = data.todos;
 		})
 	}
@@ -29,7 +31,7 @@ export class TodosComponent implements OnInit {
 	}
 
 	checkboxClick = (event:any) => {
-		this.http.updateTodoStatus(event.srcElement.id, event.srcElement.checked).subscribe();
+		this.http.updateTodoStatus(this.userId, event.srcElement.id, event.srcElement.checked).subscribe();
 	}
 
 	deleteTodo = (event:any) => {
@@ -40,7 +42,9 @@ export class TodosComponent implements OnInit {
 
 	onSubmit = () => {
 		if(this.todoModel.name) {
-			this.http.createTodo(this.todoModel.name).subscribe(data => {
+			console.log(this.userId, this.todoModel.name);
+			this.http.createTodo(this.userId, this.todoModel.name).subscribe(data => {
+				console.log(data, 'data');
 				this.todos.push(data);
 			})
 		} else {
