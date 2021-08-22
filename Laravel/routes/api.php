@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TodoController;
 use App\Models\Todo;
 use App\Models\Subtask;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,65 +18,119 @@ use App\Models\Subtask;
 |
 */
 
+///////// TODO API
 
-Route::get('/todos', function() {
-	$todos = Todo::all();
+Route::get('/users/{id}/todos', function(Request $request, $id) {
+	$todos = Todo::where('userId', '=', $id)->get();
 	$response = ['todos' => $todos];
 	return response()->json($response, 200);
 });
 
-Route::post('/todos', function(Request $request) {
-		$name = $request->input('name');
-		return Todo::create([
-			'name' => $name,
-			'isDone' => false
-		]);
+
+Route::put('/users/{id1}/todos/{id2}/status', function(Request $request, $id, $id2) {
+	$todo = Todo::find($id2);
+	if(!$todo) {
+		return response()->json(['message' => 'Todo not found'], 404);
+	};
+	$todo->isDone = $request[0];
+	$todo->save();
+	return response()->json(['todo' => $todo], 200);
 });
 
-Route::put('/todos/{id}', function(Request $request, $id) {
-	$todo = Todo::find($id);
+Route::post('/users/{id}/todos', function(Request $request, $id) {
+	$name = file_get_contents('php://input');
+	return Todo::create([
+		'name' => $name,
+		'userId' => $id,
+		'isDone' => false
+	]);
+});
+
+// Route::post('/users/{id}/todos', function(Request $request, $id) {
+// 		$name = file_get_contents('php://input');
+// 		// $name = $request->input('name');
+// 		return Todo::create([
+// 			'name' => $name,
+// 			'userId' => (int)$id
+// 		]);
+// 		// return response()->json(['id' => $name], 200);
+// });
+
+
+Route::delete('/users/{id}/todos/{id2}', function(Request $request, $id, $id2){
+	$todo = Todo::find($id2);
 		if(!$todo) {
 			return response()->json(['message' => 'Todo not found'], 404);
-		};
-		$todo->name = $request->input('name');
-		$todo->save();
-		return response()->json(['todo' => $todo], 200);
+		} else {
+			$todo->delete();
+			Subtask::where('todoId', '=', $id2)->delete();
+			return response()->json(['message' => 'Todo deleted'], 200);
+		}
 });
 
-Route::get('/todos/{id}', function(Request $request, $id) {
-	$subtasks = Subtask::where('todoId', '=', $id)->get();
+
+///////// SUBTASK API
+
+Route::get('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
+	$subtasks = Subtask::where('todoId', '=', $id2)->get();
 	$response = ['subtasks' => $subtasks];
 	return response()->json($response, 200);
 });
 
-Route::post('/todos/{id}', function(Request $request, $id) {
-	$name = $request->input('name');
-		return Subtask::create([
-			'name' => $name,
-			'todoId' => $id,
-			'isDone' => false
-		]);
-});
 
-Route::put('/todos/{id}/{id2}', function(Request $request, $id, $id2){
-	$subtask = Subtask::find($id2);
-		$subtask->name = $request->input('name');
+Route::put('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2, $id3){
+	$subtask = Subtask::find($id3);
+	if(!$subtask) {
+		return response()->json(['message' => 'Subtask not found'], 404);
+	}
+		$subtask->isDone = $request[0];
 		$subtask->save();
 		return response()->json(['subtask' => $subtask], 200);
 });
 
-Route::delete('/todos/{id}', function($id){
-	$todo = Todo::find($id);
-		if(!$todo) {
-			return response()->json(['message' => 'Todo not found'], 404);
-		};
-		$todo->delete();
-		return response()->json(['message' => 'Todo deleted'], 200);
-	}
-);
 
-Route::delete('/todos/{id}/{id2}', function($id, $id2) {
-	$subtask = Subtask::find($id2);
+Route::post('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
+	$name = file_get_contents('php://input');
+	return Subtask::create([
+		'name' => $name,
+		'todoId' => $id2,
+		'isDone' => false
+	]);
+});
+
+
+Route::delete('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2, $id3) {
+	$subtask = Subtask::find($id3);
 	$subtask->delete();
 	return response()->json(['message' => 'Subtask deleted'], 200);
+});
+
+///////// Users API
+
+Route::get('/users', function(Request $request) {
+	// $name = file_get_contents('php://input');
+	$user = User::where('name', '=', $request->input('name'))->get();
+	$response = ['user' => $user];
+	return response()->json($response, 200);
+});
+
+Route::put('/users/{id}', function(Request $request, $id) {
+	$user = User::find($id);
+	// $user-> $request[0];
+	$user->name = $request->input('name');
+	$user->save();
+	return response()->json(['user' => $user], 200);
+});
+
+Route::post('/users', function(Request $request){
+	$name = file_get_contents('php://input');
+	// $name = $request->input('name');
+	return User::create([
+		'name' => $name
+	]);
+});
+
+Route::delete('/users/{id}', function(Request $request, $id){
+	$user = User::find($id);$user->delete();
+	return response()->json(['message' => 'User deleted'], 200);
 });
