@@ -16,15 +16,19 @@ export class SubtasksComponent implements OnInit {
 	subtaskModel = new Subtask('');
 
 	todoId:any;
+	userId:any;
 	todoName:any;
 	subtasks:any;
   ngOnInit(): void {
 		const id = parseInt(this.route.snapshot.paramMap.get('id')!.toString(), 10);
 		this.todoId = id
 		const todoName = this.route.snapshot.paramMap.get('name');
+		const userId = parseInt(this.route.snapshot.paramMap.get('userId')!.toString(), 10);
 		this.todoName = todoName;
+		this.userId = userId;
+		console.log(this.todoId, 'todoid')
 		console.log(this.todoName, 'todoname')
-		this.http.getSubtasks(this.todoId).subscribe((data: any) => {
+		this.http.getSubtasks(this.userId, this.todoId).subscribe((data: any) => {
 			this.subtasks = data.subtasks;
 			console.log(this.subtasks);
 		})
@@ -32,18 +36,18 @@ export class SubtasksComponent implements OnInit {
 
 	checkboxClick = (event:any) => {
 		console.log(event)
-		this.http.updateSubtaskStatus(this.todoId, event.srcElement.id, event.srcElement.checked).subscribe();
+		this.http.updateSubtaskStatus(this.userId, this.todoId, event.srcElement.id, event.srcElement.checked).subscribe();
 	}
 
 	deleteSubtask = (event:any) => {
-		this.http.deleteSubtask(this.todoId, event.srcElement.id).subscribe(
+		this.http.deleteSubtask(this.userId, this.todoId, event.srcElement.id).subscribe(
 			this.subtasks = this.subtasks.filter((subtask:any) => subtask.id != event.srcElement.id)
 		);
 	}
 
 	onSubmit = () => {
 		if(this.subtaskModel.name) {
-			this.http.createSubtask(this.todoId, this.subtaskModel.name).subscribe(data => {
+			this.http.createSubtask(this.userId, this.todoId, this.subtaskModel.name).subscribe(data => {
 				this.subtasks.push(data);
 			})
 			this.subtaskModel.name = '';

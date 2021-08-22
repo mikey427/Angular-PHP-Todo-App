@@ -27,7 +27,7 @@ export class TodosComponent implements OnInit {
 	}
 
 	toSubtasks(todo:any) {
-		this.router.navigate(['/todos', todo.id, {name:todo.name}]);
+		this.router.navigate(['/todos', todo.id, {name:todo.name, userId:this.userId}]);
 	}
 
 	checkboxClick = (event:any) => {

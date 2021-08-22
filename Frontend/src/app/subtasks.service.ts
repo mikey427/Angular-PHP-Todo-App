@@ -10,20 +10,20 @@ export class SubtasksService {
 	}
  	apiUrl = 'http://127.0.0.1:8000/api'
 
-	 getSubtasks(id:number){
-		 return this.http.get(`${this.apiUrl}/todos/${id}`);
+	 getSubtasks(id:number, id2:number){
+		 return this.http.get(`${this.apiUrl}/users/${id}/todos/${id2}`);
 	 };
 
-	 updateSubtaskStatus(id:number, id2:number, value:boolean){
-		return this.http.put(`${this.apiUrl}/todos/${id}/${id2}`, value);
+	 updateSubtaskStatus(id:number, id2:number, id3:number, value:boolean){
+		return this.http.put(`${this.apiUrl}/users/${id}/todos/${id2}/${id3}`, value);
 	 };
 
-	 createSubtask(id:number, name:string){
-		return this.http.post(`${this.apiUrl}/todos/${id}`, name);
+	 createSubtask(id:number, id2:number, name:string){
+		return this.http.post(`${this.apiUrl}/users/${id}/todos/${id2}`, name);
 	 };
 
-	 deleteSubtask(id:number, id2:number){
-		return this.http.delete(`${this.apiUrl}/todos/${id}/${id2}`);
+	 deleteSubtask(id:number, id2:number, id3:number){
+		return this.http.delete(`${this.apiUrl}/users/${id}/todos/${id2}/${id3}`);
 	 };
 
 
