@@ -17,6 +17,8 @@ class CreateSubtasksTable extends Migration
             $table->id();
 						$table->string('name');
 						$table->integer('todoId');
+						$table->string('members');
+						$table->integer('estimated hours');
 						$table->boolean('isDone');
             $table->timestamps();
         });

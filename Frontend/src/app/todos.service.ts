@@ -23,11 +23,11 @@ export class TodosService {
 		return this.http.put(`${this.apiUrl}/users/${id}/todos/${id2}`, name)
 	};
 
-	createTodo(id:number, name:string){
-		return this.http.post(`${this.apiUrl}/users/${id}/todos`, name)
+	createTodo(id:number, name:string, members:string, hours:number){
+		return this.http.post(`${this.apiUrl}/users/${id}/todos`, {'name': name, 'members':members, 'hours':hours})
 	};
 
-	deleteTodo(id:number){
-		return this.http.delete(`${this.apiUrl}/todos/${id}`);
+	deleteTodo(id:number, id2:number){
+		return this.http.delete(`${this.apiUrl}/users/${id}/todos/${id2}`);
 	}
 }

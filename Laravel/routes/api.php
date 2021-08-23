@@ -38,12 +38,18 @@ Route::put('/users/{id1}/todos/{id2}/status', function(Request $request, $id, $i
 });
 
 Route::post('/users/{id}/todos', function(Request $request, $id) {
-	$name = file_get_contents('php://input');
+	$name = $request->input('name');
+	$members = $request->input('members');
+	$hours = $request->input('hours');
+	// $name = file_get_contents('php://input');
 	return Todo::create([
 		'name' => $name,
 		'userId' => $id,
-		'isDone' => false
+		'isDone' => false,
+		'members' => $members,
+		'estimated hours' => $hours
 	]);
+	// return response()->json(['request', $members], 200);
 });
 
 // Route::post('/users/{id}/todos', function(Request $request, $id) {
@@ -90,11 +96,22 @@ Route::put('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2
 
 
 Route::post('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
-	$name = file_get_contents('php://input');
+	// $name = file_get_contents('php://input');
+	// return Subtask::create([
+	// 	'name' => $name,
+	// 	'todoId' => $id2,
+	// 	'isDone' => false
+	// ]);
+	$name = $request->input('name');
+	$members = $request->input('members');
+	$hours = $request->input('hours');
+	// $name = file_get_contents('php://input');
 	return Subtask::create([
 		'name' => $name,
 		'todoId' => $id2,
-		'isDone' => false
+		'isDone' => false,
+		'members' => $members,
+		'estimated hours' => $hours
 	]);
 });
 

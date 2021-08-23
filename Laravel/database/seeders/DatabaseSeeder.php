@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
 				// 	'name' => Str::random(10),
 				// 	'isDone' => false
 				// ]);
-				Todo::factory()->count(4)->create();
-				Subtask::factory()->count(6)->create();
+				// Todo::factory()->count(4)->create();
+				// Subtask::factory()->count(6)->create();
+
     }
 }

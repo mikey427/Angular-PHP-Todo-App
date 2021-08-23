@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Subtask extends Model
 {
     use HasFactory;
-		protected $fillable = ['name', 'todoId', 'isDone'];
+		protected $fillable = ['name', 'todoId', 'isDone', 'members', 'estimated hours'];
 }

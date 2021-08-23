@@ -15,19 +15,23 @@ export class TodosComponent implements OnInit {
 
 	 }
 
-	todoModel = new Todo('');
+	todoModel = new Todo('', '', 0);
 	userId:any;
 	todos:any;
+	userName:any;
 	ngOnInit(): void {
 		const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 		this.userId = id;
+		const name = this.route.snapshot.paramMap.get('name')
+		this.userName = name;
+		console.log(this.userName, 'username')
 		this.http.getTodos(this.userId).subscribe((data: any) => {
 			this.todos = data.todos;
 		})
 	}
 
 	toSubtasks(todo:any) {
-		this.router.navigate(['/todos', todo.id, {name:todo.name, userId:this.userId}]);
+		this.router.navigate(['/todos', todo.id, {name:todo.name, userId:this.userId, userName: this.userName}]);
 	}
 
 	checkboxClick = (event:any) => {
@@ -35,7 +39,7 @@ export class TodosComponent implements OnInit {
 	}
 
 	deleteTodo = (event:any) => {
-		this.http.deleteTodo(event.srcElement.id).subscribe(data => {
+		this.http.deleteTodo(this.userId, event.srcElement.id).subscribe(data => {
 			this.todos = this.todos.filter((todo:any) => todo.id != event.srcElement.id)
 		})
 	}
@@ -43,9 +47,12 @@ export class TodosComponent implements OnInit {
 	onSubmit = () => {
 		if(this.todoModel.name) {
 			console.log(this.userId, this.todoModel.name);
-			this.http.createTodo(this.userId, this.todoModel.name).subscribe(data => {
+			this.http.createTodo(this.userId, this.todoModel.name, this.todoModel.members, this.todoModel.estimatedHours).subscribe(data => {
 				console.log(data, 'data');
 				this.todos.push(data);
+				this.todoModel.name = '';
+				this.todoModel.members = '';
+				this.todoModel.estimatedHours = 0;
 			})
 		} else {
 			return

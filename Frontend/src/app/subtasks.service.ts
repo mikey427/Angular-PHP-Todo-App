@@ -18,8 +18,8 @@ export class SubtasksService {
 		return this.http.put(`${this.apiUrl}/users/${id}/todos/${id2}/${id3}`, value);
 	 };
 
-	 createSubtask(id:number, id2:number, name:string){
-		return this.http.post(`${this.apiUrl}/users/${id}/todos/${id2}`, name);
+	 createSubtask(id:number, id2:number, name:string, members:string, hours:number){
+		return this.http.post(`${this.apiUrl}/users/${id}/todos/${id2}`, {'name': name, 'members':members, 'hours':hours});
 	 };
 
 	 deleteSubtask(id:number, id2:number, id3:number){

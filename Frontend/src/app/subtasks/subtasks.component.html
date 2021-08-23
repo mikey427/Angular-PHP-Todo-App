@@ -1,6 +1,6 @@
 <div>
   <router-outlet></router-outlet>
-  <h1 class="text-6xl mt-64 mb-3 w-1/3 m-auto text-center">{{todoName}}</h1>
+  <!-- <h1 class="text-6xl mt-64 mb-3 w-1/3 m-auto text-center">{{todoName}}</h1>
   <div *ngFor="let subtask of subtasks">
     <div class="text-2xl border-2 rounded w-1/3 m-auto h-16 p-3">
       <label class="inline-flex items-center m-1">
@@ -20,35 +20,92 @@
         X
       </button>
     </div>
-  </div>
+  </div> -->
+
+  <h1 class="text-6xl mt-64 mb-3 w-2/3 m-auto text-center">
+    {{ this.todoName }} Tasks
+  </h1>
+  <table class="table-fixed m-auto border-2">
+    <thead class="border-2 text-xl">
+      <tr>
+        <th class="w-1/4 text-left">Name</th>
+        <th class="w-1/4 text-left">Assigned To:</th>
+        <th class="w-1/5 text-left">Est. Hours</th>
+      </tr>
+    </thead>
+    <tbody class="text-lg">
+      <tr class="border-2" *ngFor="let subtask of subtasks">
+        <td>
+          <label class="inline-flex items-center">
+            <input
+              type="checkbox"
+              class="form-checkbox h-3 w-5 text-green-600"
+              [checked]="subtask.isDone ? true : false"
+              id="{{ subtask.id }}"
+              (click)="checkboxClick($event)"
+            />
+            <span class="ml-2 rounded w-36">{{ subtask.name }}</span>
+          </label>
+        </td>
+        <td>{{ subtask.members }}</td>
+        <td>{{ subtask["estimated hours"] }}</td>
+        <td>
+          <button
+            class="float-right rounded w-12 hover:bg-red-300"
+            id="{{ subtask.id }}"
+            (click)="deleteSubtask($event)"
+          >
+            X
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
   <form
     class="text-2xl w-1/3 m-auto mt-2"
-    #subtaskForm="ngForm"
-		(ngSubmit)="onSubmit()"
+    #todoForm="ngForm"
+    (ngSubmit)="onSubmit()"
     novalidate
   >
     <input
-      class="border-2 w-2/3"
       [(ngModel)]="subtaskModel.name"
       #input
       type="text"
       name="name"
-      placeholder="Enter new subtask"
+      placeholder="Enter new Todo"
       type="text"
-      class="border-2 w-2/3 form-control input-lg"
+      class="border-2 w-full form-control input-lg text-center"
     />
-    <button class="border-2 w-1/3 hover:bg-blue-300" type="submit">
+    <input
+      class="border-2 w-full"
+      [(ngModel)]="subtaskModel.members"
+      #input
+      type="text"
+      name="members"
+      placeholder="Enter members"
+      type="text"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <input
+      class="border-2 w-2/3"
+      [(ngModel)]="subtaskModel.estimatedHours"
+      #input
+      type="number"
+      name="estimatedHours"
+      placeholder="Enter estimated hours"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <button class="border-2 w-full hover:bg-blue-300" type="submit">
       Submit
     </button>
   </form>
   <div class="w-1/3 m-auto mt-6">
-    <a routerLink="/users/{{userId}}">
-      <button class="border-2 w-full m-auto h-12 hover:bg-blue-300">
+      <button class="border-2 w-full m-auto h-12 hover:bg-blue-300" (click)="goBack()" type="button">
         Go Back
       </button>
-    </a>
   </div>
-	<div class="w-1/3 m-auto mt-6">
+  <div class="w-1/3 m-auto mt-6">
     <a routerLink="/users">
       <button class="border-2 w-full m-auto h-12 hover:bg-blue-300">
         Sign Out

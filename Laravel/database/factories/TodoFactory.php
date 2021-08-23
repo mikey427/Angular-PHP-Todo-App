@@ -23,9 +23,9 @@ class TodoFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'name' => $this->faker->name(),
-						'isDone' => $this->faker->boolean()
-        ];
+        // return [
+        //     'name' => $this->faker->name(),
+				// 		'isDone' => $this->faker->boolean()
+        // ];
     }
 }

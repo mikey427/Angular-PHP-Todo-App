@@ -1,16 +1,109 @@
 <div>
   <router-outlet></router-outlet>
-  <h1 class="text-6xl mt-64 mb-3 w-24 m-auto">Todos</h1>
-  <div *ngFor="let todo of todos">
-    <div class="text-2xl border-2 rounded w-1/3 m-auto h-16 p-3">
-      <label class="inline-flex items-center m-1">
+  <h1 class="text-6xl mt-64 mb-3 w-2/3 m-auto text-center">{{this.userName}}'s Project List</h1>
+  <table class="table-fixed m-auto border-2">
+    <thead class="border-2 text-xl">
+      <tr>
+        <th class="w-1/4 text-left">Name</th>
+        <th class="w-1/4 text-left">Members</th>
+        <th class="w-1/5 text-left">Est. Hours</th>
+      </tr>
+    </thead>
+    <tbody class='text-lg'>
+      <tr class="border-2" *ngFor="let todo of todos">
+        <td>
+          <label class="inline-flex items-center">
+            <input
+              type="checkbox"
+              class="form-checkbox h-3 w-5 text-green-600"
+              [checked]="todo.isDone ? true : false"
+              id="{{ todo.id }}"
+              (click)="checkboxClick($event)"
+            />
+            <span class="ml-2 rounded w-36">{{ todo.name }}</span>
+          </label>
+        </td>
+        <td>{{ todo.members }}</td>
+        <td>{{ todo["estimated hours"] }}</td>
+        <td>
+          <button
+            class="float-right rounded w-12 hover:bg-red-300"
+            id="{{ todo.id }}"
+            (click)="deleteTodo($event)"
+          >
+            X
+          </button>
+          <button
+            id="{{ todo.id }}"
+            class="float-right rounded w-28 mr-2 hover:bg-blue-300"
+            (click)="toSubtasks(todo)"
+          >
+            Subtasks
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form
+    class="text-2xl w-1/3 m-auto mt-2"
+    #todoForm="ngForm"
+    (ngSubmit)="onSubmit()"
+    novalidate
+  >
+    <input
+      [(ngModel)]="todoModel.name"
+      #input
+      type="text"
+      name="name"
+      placeholder="Enter new Todo"
+      type="text"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <input
+      class="border-2 w-full"
+      [(ngModel)]="todoModel.members"
+      #input
+      type="text"
+      name="members"
+      placeholder="Enter members"
+      type="text"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <input
+      class="border-2 w-2/3"
+      [(ngModel)]="todoModel.estimatedHours"
+      #input
+      type="number"
+      name="estimatedHours"
+      placeholder="Enter estimated hours"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <button class="border-2 w-full hover:bg-blue-300" type="submit">
+      Submit
+    </button>
+  </form>
+  <div class="w-1/3 m-auto mt-6">
+    <a routerLink="/users">
+      <button class="border-2 w-full m-auto h-12 hover:bg-blue-300">
+        Sign Out
+      </button>
+    </a>
+  </div>
+
+  <!-- <div *ngFor="let todo of todos">
+    <div class="flex text-2xl border-2 rounded w-2/3 m-auto h-16 p-3">
+      <label class="inline-flex items-center">
         <input
           type="checkbox"
           class="form-checkbox h-5 w-5 text-green-600"
           [checked]="todo.isDone ? true : false"
           id="{{ todo.id }}"
           (click)="checkboxClick($event)"
-        /><span class="ml-2 text-gray-700">{{ todo.name }}</span>
+        />
+        <span class="border-2 rounded w-36">{{ todo.name }}</span>
+        <span class="border-2 rounded w-36">{{ todo.members }}</span>
+        <span class="border-2 rounded w-36">{{ todo["estimated hours"] }}</span>
       </label>
       <button
         class="float-right rounded border-2 w-12 hover:bg-red-300"
@@ -35,24 +128,42 @@
     novalidate
   >
     <input
-      class="border-2 w-2/3"
       [(ngModel)]="todoModel.name"
       #input
       type="text"
       name="name"
       placeholder="Enter new Todo"
       type="text"
-      class="border-2 w-2/3 form-control input-lg"
+      class="border-2 w-full form-control input-lg text-center"
     />
-    <button class="border-2 w-1/3 hover:bg-blue-300" type="submit">
+    <input
+      class="border-2 w-full"
+      [(ngModel)]="todoModel.members"
+      #input
+      type="text"
+      name="members"
+      placeholder="Enter members"
+      type="text"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <input
+      class="border-2 w-2/3"
+      [(ngModel)]="todoModel.estimatedHours"
+      #input
+      type="number"
+      name="estimatedHours"
+      placeholder="Enter estimated hours"
+      class="border-2 w-full form-control input-lg text-center"
+    />
+    <button class="border-2 w-full hover:bg-blue-300" type="submit">
       Submit
     </button>
   </form>
-	<div class="w-1/3 m-auto mt-6">
+  <div class="w-1/3 m-auto mt-6">
     <a routerLink="/users">
       <button class="border-2 w-full m-auto h-12 hover:bg-blue-300">
         Sign Out
       </button>
     </a>
-  </div>
+  </div> -->
 </div>
