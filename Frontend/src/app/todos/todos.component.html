@@ -1,12 +1,12 @@
-<div class='w-2/3 m-auto'>
+<div class='w-full p-12 m-auto'>
   <router-outlet></router-outlet>
-  <h1 class="text-6xl mt-64 mb-3 w-full capitalize">{{this.userName}}'s Project List</h1>
+  <h1 class="text-6xl mt-64 mb-1 w-full capitalize">{{this.userName}}<span class='lowercase'>'s</span> Project List</h1>
   <table class="w-full table-fixed m-auto border-2">
     <thead class="border-2 text-xl">
       <tr>
-        <th class="w-1/4 text-left">Project</th>
-        <th class="w-1/4 text-left">Members</th>
-        <th class="w-1/5 text-left">Est. Hours</th>
+        <th class="w-1/3 text-left">Project</th>
+        <th class="w-1/3 text-left">Members</th>
+        <th class="text-left">Est. Hours</th>
       </tr>
     </thead>
     <tbody class='text-lg'>
@@ -20,14 +20,14 @@
               id="{{ todo.id }}"
               (click)="checkboxClick($event)"
             />
-            <span class="ml-2 rounded w-36 capitalize">{{ todo.name }}</span>
+            <span class="ml-2 rounded w-full capitalize">{{ todo.name }}</span>
           </label>
         </td>
         <td class='capitalize'>{{ todo.members }}</td>
         <td>{{ todo["estimated hours"] }}</td>
         <td>
           <button
-            class="float-right rounded w-12 hover:bg-red-300"
+            class="float-right rounded w-6 hover:bg-red-300"
             id="{{ todo.id }}"
             (click)="deleteTodo($event)"
           >
@@ -58,7 +58,7 @@
       name="name"
       placeholder="Enter new Todo"
       type="text"
-      class="border-2 w-80 form-control input-lg text-center"
+      class="border-2 w-1/3 form-control input-lg text-center"
     />
     <input
       class="border-2 w-full"
@@ -68,7 +68,7 @@
       name="members"
       placeholder="Enter members"
       type="text"
-      class="border-2 w-80 form-control input-lg text-center"
+      class="border-2 w-1/3 form-control input-lg text-center"
     />
     <input
       [(ngModel)]="todoModel.estimatedHours"
@@ -78,7 +78,7 @@
       placeholder="Enter estimated hours"
       class="border-2 w-24 form-control input-lg text-center"
     />
-    <button class="border-2 w-32 hover:bg-blue-300" type="submit">
+    <button class="border-2 w-1/4 hover:bg-blue-300" type="submit">
       Submit
     </button>
   </form>

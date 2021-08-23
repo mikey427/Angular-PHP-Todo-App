@@ -11,9 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 
 export class TodosComponent implements OnInit {
-  constructor(private http: TodosService, private router: Router, private route: ActivatedRoute) {
-
-	 }
+  constructor(private http: TodosService, private router: Router, private route: ActivatedRoute) {}
 
 	todoModel = new Todo('', '', 0);
 	userId:any;
@@ -38,6 +36,8 @@ export class TodosComponent implements OnInit {
 		this.http.updateTodoStatus(this.userId, event.srcElement.id, event.srcElement.checked).subscribe();
 	}
 
+	// Deletes Project and all associated tasks
+
 	deleteTodo = (event:any) => {
 		this.http.deleteTodo(this.userId, event.srcElement.id).subscribe(data => {
 			this.todos = this.todos.filter((todo:any) => todo.id != event.srcElement.id)
@@ -58,7 +58,4 @@ export class TodosComponent implements OnInit {
 			return
 		}
 	}
-
-
-
 }

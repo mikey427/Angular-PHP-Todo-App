@@ -1,7 +1,7 @@
-<div class="w-2/3 m-auto">
+<div class="w-full p-12 m-auto">
   <router-outlet></router-outlet>
   <h1 class="text-6xl mt-64 mb-3 w-full capitalize">
-    {{ this.todoName }}
+    {{ this.todoName }} Tasks
     <span class="float-right mt-12 text-2xl">{{ this.totalHours }} Hours</span>
   </h1>
   <table class="w-full table-fixed m-auto border-2">
@@ -9,7 +9,7 @@
       <tr>
         <th class="w-1/3 text-left">Task</th>
         <th class="w-1/3 text-left">Assigned To:</th>
-        <th class="w-1/5 text-left">Est. Hours</th>
+        <th class="text-left">Est. Hours</th>
       </tr>
     </thead>
     <tbody class="text-lg">
@@ -51,7 +51,6 @@
       </tr>
     </tbody>
   </table>
-
   <form
     class="flex text-2xl w-full m-auto mt-2"
     #todoForm="ngForm"
@@ -65,7 +64,7 @@
       name="name"
       placeholder="Enter new Todo"
       type="text"
-      class="border-2 w-80 form-control input-lg text-center"
+      class="border-2 w-1/3 form-control input-lg text-center"
     />
     <input
       [(ngModel)]="subtaskModel.members"
@@ -74,7 +73,7 @@
       name="members"
       placeholder="Enter members"
       type="text"
-      class="border-2 w-80 form-control input-lg text-center"
+      class="border-2 w-1/3 form-control input-lg text-center"
     />
     <input
       [(ngModel)]="subtaskModel.estimatedHours"
@@ -84,7 +83,7 @@
       placeholder="Enter estimated hours"
       class="border-2 w-24 form-control input-lg text-center"
     />
-    <button class="border-2 w-32 hover:bg-blue-300" type="submit">
+    <button class="border-2 w-1/4 hover:bg-blue-300" type="submit">
       Submit
     </button>
   </form>
