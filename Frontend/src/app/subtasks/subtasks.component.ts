@@ -19,7 +19,10 @@ export class SubtasksComponent implements OnInit {
 	userName:any;
 	userId:any;
 	todoName:any;
+	totalHours:any;
 	subtasks:any;
+	edit:boolean = false;
+	editId:any;
   ngOnInit(): void {
 		const id = parseInt(this.route.snapshot.paramMap.get('id')!.toString(), 10);
 		this.todoId = id
@@ -31,7 +34,10 @@ export class SubtasksComponent implements OnInit {
 		this.userId = userId;
 		this.http.getSubtasks(this.userId, this.todoId).subscribe((data: any) => {
 			this.subtasks = data.subtasks;
-			console.log(this.subtasks, 'subtasks');
+			this.totalHours = 0;
+			data.subtasks.forEach((task:any) => {
+				this.totalHours += task['estimated hours'];
+			})
 		})
   }
 
@@ -50,16 +56,51 @@ export class SubtasksComponent implements OnInit {
 		console.log('button clicked');
 	}
 
-	onSubmit = () => {
-		if(this.subtaskModel.name) {
-			console.log(this.todoId, this.userId, 'todo,user')
-			this.http.createSubtask(this.userId, this.todoId, this.subtaskModel.name, this.subtaskModel.members, this.subtaskModel.estimatedHours).subscribe(data => {
-				this.subtasks.push(data);
-			})
+	editToggle = (event:any) => {
+		if(!this.edit) {
+			this.edit = true;
+			this.editId = event.srcElement.id;
+			console.log(this.editId, 'toggle')
+			console.log(this.subtasks);
+			let subtask = this.subtasks.forEach((subtask:any) => {
+				if(subtask.id == this.editId) {
+					this.subtaskModel.name = subtask.name;
+					this.subtaskModel.members = subtask.members;
+					this.subtaskModel.estimatedHours = subtask['estimated hours'];
+				}
+			});
+		} else {
+			this.edit = false;
+			this.editId = null;
 			this.subtaskModel.name = '';
 			this.subtaskModel.members = '';
 			this.subtaskModel.estimatedHours = 0;
 		}
+
+	}
+
+	onSubmit = () => {
+		if(this.edit) {
+			console.log(this.edit, this.editId, 'editid')
+			this.http.updateSubtask(this.userId, this.todoId, this.editId, this.subtaskModel.name, this.subtaskModel.members, this.subtaskModel.estimatedHours).subscribe((data:any) => {
+				this.subtasks = this.subtasks.filter((subtask:any) => subtask.id != this.editId);
+				console.log(data)
+				this.subtasks.push(data.subtask);
+				this.edit = false;
+				this.editId = null;
+			})
+		} else {
+			if(this.subtaskModel.name) {
+				console.log(this.todoId, this.userId, 'todo,user')
+				this.http.createSubtask(this.userId, this.todoId, this.subtaskModel.name, this.subtaskModel.members, this.subtaskModel.estimatedHours).subscribe((data:any) => {
+					this.subtasks.push(data);
+					this.totalHours += data['estimated hours'];
+				})
+			}
+		}
+		this.subtaskModel.name = '';
+		this.subtaskModel.members = '';
+		this.subtaskModel.estimatedHours = 0;
 	}
 
 }

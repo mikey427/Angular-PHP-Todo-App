@@ -84,7 +84,7 @@ Route::get('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
 });
 
 
-Route::put('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2, $id3){
+Route::put('/users/{id}/todos/{id2}/{id3}/status', function(Request $request, $id, $id2, $id3){
 	$subtask = Subtask::find($id3);
 	if(!$subtask) {
 		return response()->json(['message' => 'Subtask not found'], 404);
@@ -92,6 +92,18 @@ Route::put('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2
 		$subtask->isDone = $request[0];
 		$subtask->save();
 		return response()->json(['subtask' => $subtask], 200);
+});
+
+Route::put('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2, $id3){
+	$subtask = Subtask::find($id3);
+	if(!$subtask) {
+		return response()->json(['message' => 'Subtask not found'], 404);
+	}
+	$subtask->name = $request->input('name');
+	$subtask->members = $request->input('members');
+	$subtask->{'estimated hours'} = $request->input('hours');
+	$subtask->save();
+	return response()->json(['subtask' => $subtask], 200);
 });
 
 

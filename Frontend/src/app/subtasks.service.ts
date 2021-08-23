@@ -15,7 +15,11 @@ export class SubtasksService {
 	 };
 
 	 updateSubtaskStatus(id:number, id2:number, id3:number, value:boolean){
-		return this.http.put(`${this.apiUrl}/users/${id}/todos/${id2}/${id3}`, value);
+		return this.http.put(`${this.apiUrl}/users/${id}/todos/${id2}/${id3}/status`, value);
+	 };
+
+	 updateSubtask(id:number, id2:number, id3:number,  name:string, members:string, hours:number){
+		return this.http.put(`${this.apiUrl}/users/${id}/todos/${id2}/${id3}`, {'name':name, 'members':members, 'hours':hours});
 	 };
 
 	 createSubtask(id:number, id2:number, name:string, members:string, hours:number){
