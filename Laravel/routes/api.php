@@ -49,19 +49,7 @@ Route::post('/users/{id}/todos', function(Request $request, $id) {
 		'members' => $members,
 		'estimated hours' => $hours
 	]);
-	// return response()->json(['request', $members], 200);
 });
-
-// Route::post('/users/{id}/todos', function(Request $request, $id) {
-// 		$name = file_get_contents('php://input');
-// 		// $name = $request->input('name');
-// 		return Todo::create([
-// 			'name' => $name,
-// 			'userId' => (int)$id
-// 		]);
-// 		// return response()->json(['id' => $name], 200);
-// });
-
 
 Route::delete('/users/{id}/todos/{id2}', function(Request $request, $id, $id2){
 	$todo = Todo::find($id2);
@@ -74,7 +62,6 @@ Route::delete('/users/{id}/todos/{id2}', function(Request $request, $id, $id2){
 		}
 });
 
-
 ///////// SUBTASK API
 
 Route::get('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
@@ -82,7 +69,6 @@ Route::get('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
 	$response = ['subtasks' => $subtasks];
 	return response()->json($response, 200);
 });
-
 
 Route::put('/users/{id}/todos/{id2}/{id3}/status', function(Request $request, $id, $id2, $id3){
 	$subtask = Subtask::find($id3);
@@ -99,25 +85,17 @@ Route::put('/users/{id}/todos/{id2}/{id3}', function(Request $request, $id, $id2
 	if(!$subtask) {
 		return response()->json(['message' => 'Subtask not found'], 404);
 	}
-	$subtask->name = $request->input('name');
-	$subtask->members = $request->input('members');
-	$subtask->{'estimated hours'} = $request->input('hours');
+		$subtask->name = $request->input('name');
+		$subtask->members = $request->input('members');
+		$subtask->{'estimated hours'} = $request->input('hours');
 	$subtask->save();
 	return response()->json(['subtask' => $subtask], 200);
 });
 
-
 Route::post('/users/{id}/todos/{id2}', function(Request $request, $id, $id2) {
-	// $name = file_get_contents('php://input');
-	// return Subtask::create([
-	// 	'name' => $name,
-	// 	'todoId' => $id2,
-	// 	'isDone' => false
-	// ]);
 	$name = $request->input('name');
 	$members = $request->input('members');
 	$hours = $request->input('hours');
-	// $name = file_get_contents('php://input');
 	return Subtask::create([
 		'name' => $name,
 		'todoId' => $id2,
