@@ -35,10 +35,17 @@
           </button>
           <button
             id="{{ todo.id }}"
-            class="float-right rounded w-28 mr-2 hover:bg-blue-300"
+            class="float-right rounded w-24 mr-2 hover:bg-blue-300"
             (click)="toSubtasks(todo)"
           >
             Subtasks
+          </button>
+					<button
+            id="{{ todo.id }}"
+            class="float-right rounded w-12 mr-2 hover:bg-blue-300"
+						(click)='editToggle($event)'
+          >
+            Edit
           </button>
         </td>
       </tr>

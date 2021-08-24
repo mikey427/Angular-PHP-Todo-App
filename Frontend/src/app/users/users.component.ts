@@ -15,9 +15,11 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
   }
 
+	// Models for forms
 	userModel = new User('');
 	newUserModel = new CreateUser('');
 
+	// Gets a user tied to username entered and navigates to project page
 	onSubmit = () => {
 		if(this.userModel.name) {
 			this.http.getUser(this.userModel.name).subscribe((data:any) => {
@@ -27,6 +29,7 @@ export class UsersComponent implements OnInit {
 		}
 	}
 
+	// Creates a user with the entered username and naviagtes to project page
 	createUser = () => {
 		if(this.newUserModel.name) {
 			console.log(this.newUserModel.name)
